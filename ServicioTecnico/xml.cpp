@@ -21,21 +21,19 @@ QString Readxml()
     else
     {
         QDomElement root = document.firstChildElement("reparacion");
-        QDomElement m = root.firstChildElement("modelo");
-        QDomElement a = root.firstChildElement("averia");
-        QDomElement n = root.firstChildElement("nombre");
-        QDomElement t = root.firstChildElement("tienda");
+        QDomElement modeloxml = root.firstChildElement("modelo");
+        QDomElement averiaxml = root.firstChildElement("averia");
+        QDomElement tiendaxml = root.firstChildElement("tienda");
 
-        QString modelo = m.text();
-        QString averia = m.text();
-        QString nombre = m.text();
-        QString tienda = m.text();
+        QString modelo = modeloxml.text();
+        QString averia = averiaxml.text();
+        QString tienda = tiendaxml.text();
 
-        return modelo, averia, nombre, tienda;
+        return modelo, averia, tienda;
     }
 }
 
-void WriteXml(QString modelo, QString averia, QString nombre, QString tienda, QString estado, int id)
+void WriteXml(QString modelo, QString averia, QString uuid, QString tienda, QString estado, int id)
 {
      QXmlStreamWriter xmlWriter;
      QFile file("CentralRep.xml");
@@ -62,8 +60,8 @@ void WriteXml(QString modelo, QString averia, QString nombre, QString tienda, QS
         xmlWriter.writeCharacters(averia);
         xmlWriter.writeEndElement();
 
-        xmlWriter.writeStartElement("nombre");
-        xmlWriter.writeCharacters(nombre);
+        xmlWriter.writeStartElement("uuid");
+        xmlWriter.writeCharacters(uuid);
         xmlWriter.writeEndElement();
 
         xmlWriter.writeStartElement("tienda");
