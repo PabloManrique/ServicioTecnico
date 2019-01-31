@@ -5,6 +5,8 @@
 class Xml
 {
 public:
+    Readxml();
+    Writexml();
     Xml();
 };
 

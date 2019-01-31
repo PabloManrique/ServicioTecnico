@@ -9,7 +9,7 @@ Xml::Xml()
 
 }
 
-QString Readxml()
+void Readxml()
 {
     QDomDocument document;
 
@@ -29,7 +29,7 @@ QString Readxml()
         QString averia = averiaxml.text();
         QString tienda = tiendaxml.text();
 
-        return modelo, averia, tienda;
+
     }
 }
 

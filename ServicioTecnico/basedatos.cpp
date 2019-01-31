@@ -14,6 +14,7 @@ void Conectarbd(){
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
     db.setHostName("localhost");
     db.setUserName("root");
+    db.setPort(5432);
     db.setPassword("");
     db.setDatabaseName("serviciotecnico");
 
@@ -26,15 +27,11 @@ void Conectarbd(){
 
 }
 
-void ModelosTel(QString m){
+int Buscmodelo(QString modelo){
     QSqlQuery qry;
-    QVector<QString> select;
-    int i = 0;
-    bool encontrado;
-    if (qry.exec("SELECT modelo FROM Modelos")){
+    if (qry.exec("SELECT id_modelos FROM Modelos WHERE nombre_modelos LIKE "+modelo)){
         while (qry.next()) {
-            select[i] = qry.value(0).toString();
-            i++;
+            return qry.value(0);
         }
     }
 }
@@ -52,3 +49,23 @@ void InformacionRep(QString uuid){
     }
 }
 
+int Busctienda(QStrign tienda){
+    QSqlQuery qry;
+    if (qry.exec("SELECT id_tienda FROM tiendas WHERE nombre_tiendas LIKE "+tienda))
+        while(qry.next()){
+            return qry.value(0).toString();
+        }
+}
+
+void InsertarInfo(QString modelo, QString averia, QString tienda){
+
+    int idTienda = Busctienda(tienda);
+    int idModelo = Buscmodelo(modelo);
+    uuid = QUuid::createUuid();
+    qry.exec("INSERT INTO informacion (id_informacion,uuid_informacion,fk_id_estadorep_informacion,fk_id_tiendas_informacion,fk_id_modelo_informacion, reparacion) values(2, :uuid_informacion, 1,:fk_id_tiendas_informacion,:fk_id_modelo_informacion,:reparacion)");
+    qry.bindValue(":uuid_informacion", uuid);
+    qry.bindValue(":fk_id_tiendas_informacion", idTienda);
+    qry.bindValue(":fk_id_modelo_informacion", idModelo);
+    qry.bindValue(":reparacion", averia);
+
+}
